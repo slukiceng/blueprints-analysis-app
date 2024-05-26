@@ -11,7 +11,7 @@ import re
 st.set_page_config(page_title='Blueprint take-off AI', page_icon='👁️')
 
 st.markdown('# CAD Blueprint take-off AI')
-st.markdown('This AI will provide a take-off  of the quantities from an engineering drawing returning ONLY as a markdown table.')
+st.markdown('This AI will provide a take-off  of the quantities from an engineering drawing returning ONLY as markdown table.')
 
 # Function to convert markdown table to CSV
 def markdown_table_to_csv(markdown_table):
