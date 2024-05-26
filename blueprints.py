@@ -13,6 +13,16 @@ st.set_page_config(page_title='Blueprint take-off AI', page_icon='👁️')
 st.markdown('# CAD Blueprint take-off AI')
 st.markdown('This AI will provide a take-off  of the quantities from an engineering drawing returning ONLY as a markdown table.')
 
+# Function to convert markdown table to CSV
+def markdown_table_to_csv(markdown_table):
+    rows = markdown_table.strip().split('\n')
+    columns = [col.strip() for col in rows[0].split('|')[1:-1]]
+    data = []
+    for row in rows[2:]:
+        data.append([cell.strip() for cell in row.split('|')[1:-1]])
+    df = pd.DataFrame(data, columns=columns)
+    return df
+
 
 api_key = st.text_input('OpenAI API Key', '', type='password')
 
@@ -64,5 +74,15 @@ if st.button('Send'):
     if response_msg:
         with st.chat_message('assistant'):
             st.markdown(response_msg)
+
+            # Assume the entire response_msg is the markdown table
+            df = markdown_table_to_csv(response_msg)
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Download table as CSV",
+                data=csv,
+                file_name='table.csv',
+                mime='text/csv'
+            )
 
             
